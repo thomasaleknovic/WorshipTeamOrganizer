@@ -4,13 +4,11 @@ import com.thomasaleknovic.worshipteamorganizer.models.Person;
 import com.thomasaleknovic.worshipteamorganizer.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/person")
@@ -25,7 +23,7 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Person> getPersonById(@PathVariable UUID id) {
+    public ResponseEntity<Optional<Person>> getPersonById(@PathVariable UUID id) {
         return ResponseEntity.ok(personService.findPersonById(id));
     }
 
@@ -36,7 +34,11 @@ public class PersonController {
 
     @PutMapping("/update/person/{id}")
     public ResponseEntity<Person> updatePerson (@PathVariable UUID id, @RequestBody Person updatedPersonInfo) {
-        Person personToUpdate = personService.getPersonById(id);
-        return ResponseEntity.ok(personService.updatePerson(personToUpdate, updatedPersonInfo))
+        return personService.findPersonById(id)
+                .map(personFound -> personService.updatePerson(personFound, updatedPersonInfo))
+                .map(personUpdated -> ResponseEntity.ok().body(personUpdated))
+                .orElse(ResponseEntity.notFound().build());
+
+
     }
 }
