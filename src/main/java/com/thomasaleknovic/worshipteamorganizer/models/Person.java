@@ -1,8 +1,11 @@
 package com.thomasaleknovic.worshipteamorganizer.models;
+import com.thomasaleknovic.worshipteamorganizer.dtos.PersonDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 import java.util.UUID;
 
 
@@ -20,10 +23,13 @@ public class Person {
     private String bandRole;
     private Boolean isAdmin;
 
-    public Person(String firstName, String lastName, String bandRole, Boolean isAdmin) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.bandRole = bandRole;
-        this.isAdmin = isAdmin;
+    @ManyToMany(mappedBy = "serviceTeam")
+    private List<Service> serviceList;
+
+    public Person(PersonDTO data) {
+        this.firstName = data.firstName();
+        this.lastName = data.lastName();
+        this.bandRole = data.bandRole();
+        this.isAdmin = data.isAdmin();
     }
 }
