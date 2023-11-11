@@ -1,5 +1,6 @@
 package com.thomasaleknovic.worshipteamorganizer.controllers;
 
+import com.thomasaleknovic.worshipteamorganizer.dtos.PersonDTO;
 import com.thomasaleknovic.worshipteamorganizer.models.Person;
 import com.thomasaleknovic.worshipteamorganizer.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,12 @@ public class PersonController {
     }
 
     @PostMapping("/new/person")
-    public ResponseEntity<Person> createPerson (@RequestBody Person person ) {
-        return ResponseEntity.ok(personService.createPerson(person));
+    public ResponseEntity<Person> createPerson (@RequestBody PersonDTO info ) {
+        return ResponseEntity.ok(personService.createPerson(info));
     }
 
     @PutMapping("/update/person/{id}")
-    public ResponseEntity<Person> updatePerson (@PathVariable UUID id, @RequestBody Person updatedPersonInfo) {
+    public ResponseEntity<Person> updatePerson (@PathVariable UUID id, @RequestBody PersonDTO updatedPersonInfo) {
         return personService.findPersonById(id)
                 .map(personFound -> personService.updatePerson(personFound, updatedPersonInfo))
                 .map(personUpdated -> ResponseEntity.ok().body(personUpdated))

@@ -1,4 +1,6 @@
 package com.thomasaleknovic.worshipteamorganizer.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.thomasaleknovic.worshipteamorganizer.dtos.PersonDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,8 +25,9 @@ public class Person {
     private String bandRole;
     private Boolean isAdmin;
 
-    @ManyToMany(mappedBy = "serviceTeam")
-    private List<Service> serviceList;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "eventTeam")
+    private List<Event> eventList;
 
     public Person(PersonDTO data) {
         this.firstName = data.firstName();
