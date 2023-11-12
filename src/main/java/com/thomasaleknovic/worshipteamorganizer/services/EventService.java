@@ -37,13 +37,18 @@ public class EventService {
         return eventRepository.findById(id);
     }
 
-    //Find all events by person id
+
     public List<Event> findEventsByPersonId (UUID id) {
         return eventRepository.findAllByEventTeam_Id(id);
     }
 
+    public Event updateEventInfo (Event eventToUpdate, EventDTO infoToUpdate) {
 
-    //Update event info
+        eventToUpdate.setEventName(infoToUpdate.eventName());
+        eventToUpdate.setEventDate(infoToUpdate.eventDate());
+
+        return eventRepository.save(eventToUpdate);
+    }
 
 
     //Add team member
