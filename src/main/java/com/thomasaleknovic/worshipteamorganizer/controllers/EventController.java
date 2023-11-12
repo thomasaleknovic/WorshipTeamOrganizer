@@ -1,9 +1,7 @@
 package com.thomasaleknovic.worshipteamorganizer.controllers;
 
 import com.thomasaleknovic.worshipteamorganizer.dtos.EventDTO;
-import com.thomasaleknovic.worshipteamorganizer.dtos.PersonDTO;
 import com.thomasaleknovic.worshipteamorganizer.models.Event;
-import com.thomasaleknovic.worshipteamorganizer.models.Person;
 import com.thomasaleknovic.worshipteamorganizer.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,4 +43,13 @@ public class EventController {
 
         return ResponseEntity.ok(eventService.addMemberByPersonId(eventId, personId));
     }
+
+    @PutMapping ("/{eventId}/update")
+    public ResponseEntity<Event> updateEventInfo (@PathVariable UUID eventId, EventDTO infoToUpdate) {
+        return eventService.findEventById(eventId)
+                        .map(event -> eventService.updateEventInfo(event, infoToUpdate))
+                        .map(eventUpdated -> ResponseEntity.ok().body(eventUpdated))
+                        .orElse(ResponseEntity.notFound().build());
+
+        }
  }
