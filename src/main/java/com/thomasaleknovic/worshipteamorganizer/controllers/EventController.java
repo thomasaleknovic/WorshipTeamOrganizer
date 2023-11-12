@@ -40,8 +40,8 @@ public class EventController {
         return ResponseEntity.ok(eventService.createEvent(data));
     }
 
-    @PutMapping("/{eventId}/add-member/{personId}")
-    public ResponseEntity<Event> addMemberToEvent (@PathVariable UUID eventId, @PathVariable UUID personId) throws Exception {
+    @PutMapping("/{eventId}/add-member")
+    public ResponseEntity<Event> addMemberToEvent (@PathVariable UUID eventId, @RequestBody UUID personId) throws Exception {
 
         return ResponseEntity.ok(eventService.addMemberByPersonId(eventId, personId));
     }
