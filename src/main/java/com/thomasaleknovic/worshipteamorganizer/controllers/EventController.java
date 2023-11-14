@@ -47,7 +47,7 @@ public class EventController {
     @PutMapping ("/{eventId}/update")
     public ResponseEntity<Event> updateEventInfo (@PathVariable UUID eventId, EventDTO infoToUpdate) {
         return eventService.findEventById(eventId)
-                        .map(event -> eventService.updateEventInfo(event, infoToUpdate))
+                        .map(eventFound -> eventService.updateEventInfo(eventFound, infoToUpdate))
                         .map(eventUpdated -> ResponseEntity.ok().body(eventUpdated))
                         .orElse(ResponseEntity.notFound().build());
 
